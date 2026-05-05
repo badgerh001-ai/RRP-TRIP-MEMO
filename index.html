@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d2445">
+<title>RRP Trip Board</title>
+<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#050c18;--bg-card:#0b192e;--navy:#0d2445;
+  --brand:#00A2E8;--brand-light:#33C2FF;
+  --white:#fff;--gray:#a0b8d8;--gray-dark:#4f6b96;
+  --success:#10b981;--danger:#ef4444;--gold:#f59e0b;
+  --border:rgba(255,255,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden;}
+header{background:linear-gradient(180deg,#0a172e,#050c18);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+.hlogo{display:flex;align-items:center;gap:10px;}
+.hlogo img{height:36px;width:36px;border-radius:6px;object-fit:cover;}
+.hlogo-fb{display:none;width:36px;height:36px;border-radius:6px;background:#00A2E8;align-items:center;justify-content:center;font-weight:800;font-size:11px;color:#000;}
+.hlogo-text{font-size:15px;font-weight:700;letter-spacing:1px;line-height:1.1;color:#fff;}
+.hlogo-text small{display:block;font-size:9px;font-weight:600;color:var(--brand);letter-spacing:2px;}
+.live-pill{background:rgba(16,185,129,0.15);color:var(--success);font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:1px;display:flex;align-items:center;gap:5px;border:1px solid rgba(16,185,129,0.3);}
+.dot{width:6px;height:6px;background:var(--success);border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.wrap{max-width:880px;margin:0 auto;padding:20px 14px 100px;}
+.tabs{display:flex;margin-bottom:20px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.tab{flex:1;padding:11px;text-align:center;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:0.5px;color:var(--gray);transition:all 0.2s;border:none;background:transparent;text-transform:uppercase;}
+.tab.active{background:var(--brand);color:#000;}
+.tab:hover:not(.active){background:rgba(0,162,232,0.08);}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
+.ctitle{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--brand);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+label{font-size:10px;font-weight:700;letter-spacing:0.4px;color:var(--gray);text-transform:uppercase;}
+input,select{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:9px 11px;color:var(--white);font-size:13px;outline:none;width:100%;transition:all 0.2s;-webkit-appearance:none;font-family:inherit;}
+input[type=number]{font-weight:600;}
+input::placeholder{color:var(--gray-dark);font-weight:400;}
+input:focus,select:focus{border-color:var(--brand);background:rgba(0,162,232,0.04);box-shadow:0 0 0 2px rgba(0,162,232,0.15);}
+select option{background:var(--bg-card);}
+.hint{font-size:9px;color:var(--gray-dark);}
+.auto-inp input{border-color:rgba(0,162,232,0.35);background:rgba(0,162,232,0.04);}
+.gap{margin-bottom:12px;}
+.sec-lbl{font-size:10px;font-weight:700;color:var(--gray-dark);letter-spacing:1px;text-transform:uppercase;margin:14px 0 8px;padding:0 2px;}
+.calc-box{background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px;margin-top:14px;}
+.crow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.crow:last-child{border-bottom:none;}
+.crow.top{border-top:1px solid rgba(255,255,255,0.15);padding-top:10px;margin-top:2px;}
+.cl{font-size:11px;color:var(--gray);font-weight:500;}
+.cl.indent{padding-left:10px;color:var(--gray-dark);font-size:10.5px;}
+.cv{font-size:13px;font-weight:700;}
+.cv.blue{color:var(--brand-light);}
+.cv.red{color:var(--danger);}
+.cv.green{color:var(--success);}
+.cv.muted{color:var(--gray-dark);}
+.totals{display:grid;grid-template-columns:1fr 1fr;margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(0,162,232,0.25);}
+.tcell{background:var(--bg-card);padding:15px;text-align:center;}
+.tcell+.tcell{border-left:1px solid rgba(0,162,232,0.2);}
+.tv{font-size:22px;font-weight:800;line-height:1;}
+.tl{font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:5px;font-weight:600;}
+.tv.green{color:var(--success);}
+.tv.red{color:var(--danger);}
+.formula-note{font-size:9px;color:var(--gray-dark);line-height:1.6;margin-top:8px;padding:8px;background:rgba(255,255,255,0.02);border-radius:6px;}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;padding:12px 18px;transition:all 0.2s;width:100%;font-family:inherit;}
+.btn:hover:not(:disabled){transform:translateY(-1px);}
+.btn:disabled{opacity:0.45;cursor:not-allowed;}
+.btn-primary{background:linear-gradient(135deg,#0284c7,var(--brand));color:#fff;}
+.btn-pdf{background:linear-gradient(135deg,#b91c1c,#ef4444);color:#fff;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--gray);}
+.btn-ghost:hover:not(:disabled){background:rgba(255,255,255,0.04);color:var(--white);}
+.btn-row{display:flex;gap:10px;margin-top:4px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.stat-n{font-size:24px;font-weight:800;color:var(--brand);line-height:1;}
+.stat-l{font-size:9px;color:var(--gray);letter-spacing:0.5px;text-transform:uppercase;margin-top:4px;font-weight:600;}
+.hitem{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:border-color 0.2s;}
+.hitem:hover{border-color:var(--brand);}
+.hitem.closed{border-color:rgba(16,185,129,0.25);background:rgba(16,185,129,0.02);}
+.hlrno{font-size:16px;font-weight:800;color:var(--white);}
+.hmeta{font-size:10px;color:var(--gray);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.htag{background:rgba(255,255,255,0.05);padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;}
+.htag.c{background:rgba(16,185,129,0.12);color:var(--success);}
+.htag.o{background:rgba(239,68,68,0.1);color:var(--danger);}
+.dbadge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700;}
+.dbadge.open{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.2);}
+.dbadge.zero{background:rgba(16,185,129,0.1);color:var(--success);border:1px solid rgba(16,185,129,0.2);}
+.hacts{display:flex;gap:6px;flex-shrink:0;}
+.mb{padding:6px 11px;border-radius:6px;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;}
+.mb.mpdf{background:rgba(239,68,68,0.1);color:#ef4444;}
+.mb.mpdf:hover{background:rgba(239,68,68,0.2);}
+.mb.mclose{background:rgba(16,185,129,0.1);color:var(--success);}
+.mb.mclose:hover{background:rgba(16,185,129,0.2);}
+.mb.mdel{background:transparent;color:var(--gray-dark);border:none;font-size:15px;}
+.mb.mdel:hover{color:var(--danger);}
+.empty{text-align:center;padding:40px;color:var(--gray-dark);font-size:13px;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#fff;color:#000;padding:10px 22px;border-radius:30px;font-size:12px;font-weight:700;z-index:9999;transition:transform 0.3s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 8px 25px rgba(0,0,0,0.4);white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr 1fr;}.btn-row{flex-direction:column;}}
+@media(max-width:380px){.g2,.g3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hlogo">
+    <img id="logo-img" src="https://i.img.it.com/R9tD6GPw/logo.png.jpg" alt="RRP" onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex'">
+    <div id="logo-fb" class="hlogo-fb">RRP</div>
+    <div class="hlogo-text">ENTERPRISES<small>TRIP BOARD</small></div>
+  </div>
+  <div class="live-pill"><div class="dot"></div>LIVE</div>
+</header>
+
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" id="tab-new" onclick="sw('new')">➕ New Trip Entry</button>
+    <button class="tab" id="tab-hist" onclick="sw('hist')">📋 Trip History</button>
+  </div>
+
+  <!-- NEW ENTRY -->
+  <div id="pane-new">
+
+    <div class="card">
+      <div class="ctitle">🚛 Trip Details</div>
+      <div class="g3 gap">
+        <div class="fg"><label>LR Number</label><input id="lr_no" placeholder="e.g. RRP-601" oninput="rc()"></div>
+        <div class="fg"><label>Date</label><input type="date" id="trip_date" oninput="rc()"></div>
+        <div class="fg"><label>Vehicle No</label><input id="vehicle_no" placeholder="AP 39 VA 3669" oninput="rc()"></div>
+      </div>
+      <div class="g2 gap">
+        <div class="fg"><label>From (Origin)</label><input id="from_place" placeholder="Anantapur" oninput="rc()"></div>
+        <div class="fg"><label>To (Destination)</label><input id="to_place" placeholder="Hyderabad" oninput="rc()"></div>
+      </div>
+      <div class="g2 gap">
+        <div class="fg"><label>Party / Consignor</label><input id="party_name" placeholder="e.g. Sugna Metals" oninput="rc()"></div>
+        <div class="fg"><label>Material / Goods</label><input id="material" placeholder="e.g. Iron Ore" oninput="rc()"></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Driver Name</label><input id="driver_name" placeholder="Driver name" oninput="rc()"></div>
+        <div class="fg"><label>Driver Mobile</label><input id="driver_mob" placeholder="+91 ..." oninput="rc()"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">💰 Lorry Financials</div>
+
+      <!-- Rate × Tons → Auto Total -->
+      <div class="g3 gap">
+        <div class="fg">
+          <label>Lorry Rate (₹ / Ton)</label>
+          <input type="number" id="lorry_rate" placeholder="0" min="0" oninput="autoTotal()">
+          <span class="hint">Rate per metric ton</span>
+        </div>
+        <div class="fg">
+          <label>Quantity (Tons)</label>
+          <input type="number" id="lorry_tons" placeholder="0" min="0" oninput="autoTotal()">
+          <span class="hint">Total tonnage loaded</span>
+        </div>
+        <div class="fg auto-inp">
+          <label>Lorry Total Amount (₹) ← AUTO</label>
+          <input type="number" id="lorry_total" placeholder="Auto = Rate × Tons" min="0" oninput="rc()">
+          <span class="hint">Override manually if needed</span>
+        </div>
+      </div>
+
+      <div class="sec-lbl">Advance & Deductions</div>
+
+      <div class="g2 gap">
+        <div class="fg"><label>Advance Paid (₹)</label><input type="number" id="adv" placeholder="0" min="0" oninput="rc()"></div>
+        <div class="fg"><label>TDS (₹)</label><input type="number" id="tds" placeholder="0" min="0" oninput="rc()"></div>
+      </div>
+      <div class="g3 gap">
+        <div class="fg"><label>Loading Expenses (₹)</label><input type="number" id="loading" placeholder="0" min="0" oninput="rc()"></div>
+        <div class="fg"><label>Halting Charges (₹)</label><input type="number" id="halting" placeholder="0" min="0" oninput="rc()"><span class="hint">Added to lorry earnings</span></div>
+        <div class="fg"><label>Munshi Charges (₹)</label><input type="number" id="munshi" placeholder="0" min="0" oninput="rc()"><span class="hint">Weighment / Munshi fee</span></div>
+      </div>
+      <div class="g3">
+        <div class="fg"><label>Office Commission (₹)</label><input type="number" id="commission" placeholder="0" min="0" oninput="rc()"></div>
+        <div class="fg"><label>POD Charges (₹)</label><input type="number" id="pod" placeholder="0" min="0" oninput="rc()"></div>
+        <div class="fg"><label>Shortage / Damage (₹)</label><input type="number" id="shortage" placeholder="0" min="0" oninput="rc()"></div>
+      </div>
+
+      <!-- LIVE CALC -->
+      <div class="calc-box">
+        <div class="crow"><span class="cl" style="color:var(--white);font-weight:700;">Lorry Total Amount</span><span class="cv blue" id="d_total">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− Advance Paid</span><span class="cv" id="d_adv">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− TDS</span><span class="cv" id="d_tds">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− Loading Expenses</span><span class="cv" id="d_loading">₹0.00</span></div>
+        <div class="crow"><span class="cl indent" style="color:var(--success);">+ Halting Charges</span><span class="cv green" id="d_halting">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− Munshi Charges</span><span class="cv" id="d_munshi">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− Office Commission</span><span class="cv" id="d_comm">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− POD Charges</span><span class="cv" id="d_pod">₹0.00</span></div>
+        <div class="crow"><span class="cl indent">− Shortage / Damage</span><span class="cv" id="d_shortage">₹0.00</span></div>
+      </div>
+
+      <div class="totals">
+        <div class="tcell">
+          <div class="tv green" id="d_paid">₹0.00</div>
+          <div class="tl">Lorry Total Paid</div>
+        </div>
+        <div class="tcell">
+          <div class="tv red" id="d_due">₹0.00</div>
+          <div class="tl">Lorry Due (Balance)</div>
+        </div>
+      </div>
+
+      <div class="formula-note">
+        <b>Total Paid</b> = Advance + TDS + Loading + Munshi + Commission + POD + Shortage<br>
+        <b>Due (Balance)</b> = Total Amount + Halting − Total Paid
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">📌 Trip Status</div>
+      <div class="g3 gap">
+        <div class="fg">
+          <label>Trip Status</label>
+          <select id="trip_status"><option>Trip Closed</option><option>Active</option><option>In Transit</option><option>Pending</option></select>
+        </div>
+        <div class="fg">
+          <label>POD Status</label>
+          <select id="pod_status"><option>Submitted</option><option>Pending</option><option>Not Required</option></select>
+        </div>
+        <div class="fg"><label>ePOD Link (Drive)</label><input id="epod" placeholder="https://drive.google.com/..." oninput="rc()"></div>
+      </div>
+      <div class="fg"><label>Remarks / Notes</label><input id="remarks" placeholder="Optional remarks..." oninput="rc()"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" style="flex:0.35" onclick="clearForm()">Clear</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveTrip()">💾 Save Trip</button>
+    </div>
+    <div style="margin-top:10px;">
+      <button class="btn btn-pdf" id="pdfBtn" onclick="makePDF(null)" disabled>🖨️ Download PDF Receipt</button>
+    </div>
+    <p style="text-align:center;font-size:9px;color:var(--gray-dark);margin-top:6px;">Fill LR No + Vehicle + Total Amount to enable PDF</p>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="pane-hist" style="display:none;">
+    <div class="stats-row">
+      <div class="stat"><div class="stat-n" id="s_total">0</div><div class="stat-l">Total Trips</div></div>
+      <div class="stat"><div class="stat-n" id="s_due" style="color:var(--danger)">₹0</div><div class="stat-l">Total Due</div></div>
+      <div class="stat"><div class="stat-n" id="s_paid" style="color:var(--success)">₹0</div><div class="stat-l">Total Paid</div></div>
+    </div>
+    <div id="histList"><div class="empty">No trips yet.</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══ STORAGE ═══ */
+let trips = JSON.parse(localStorage.getItem('rrp_v3') || '[]');
+
+/* ═══ NUMBER HELPERS ═══ */
+function gn(id){ return parseFloat(document.getElementById(id).value)||0; }
+function gs(id){ return (document.getElementById(id).value||'').trim(); }
+function inr(v){ return '₹'+(+v||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function short(v){
+  v=Math.abs(+v||0);
+  if(v>=10000000) return '₹'+(v/10000000).toFixed(1)+'Cr';
+  if(v>=100000)   return '₹'+(v/100000).toFixed(1)+'L';
+  if(v>=1000)     return '₹'+(v/1000).toFixed(1)+'K';
+  return '₹'+Math.round(v);
+}
+function fdt(d){
+  if(!d) return '';
+  const [y,m,dd]=d.split('-');
+  return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+parseInt(dd)+', '+y;
+}
+function set(id,v){ document.getElementById(id).textContent=v; }
+
+/* ═══ AUTO TOTAL FROM RATE × TONS ═══ */
+function autoTotal(){
+  const r=gn('lorry_rate'), t=gn('lorry_tons');
+  if(r>0 && t>0) document.getElementById('lorry_total').value=(r*t).toFixed(2);
+  rc();
+}
+
+/* ═══ MASTER RECALC ═══
+   Formula from GSheet:
+   TotalPaid = Advance + TDS + Loading + Munshi + Commission + POD + Shortage
+   Due       = TotalAmount + Halting - TotalPaid
+   (Halting is ADDED to what lorry earns — lorry owner gets extra)
+*/
+function rc(){
+  const total      = gn('lorry_total');
+  const adv        = gn('adv');
+  const tds        = gn('tds');
+  const loading    = gn('loading');
+  const halting    = gn('halting');
+  const munshi     = gn('munshi');
+  const commission = gn('commission');
+  const pod        = gn('pod');
+  const shortage   = gn('shortage');
+
+  const totalPaid = adv + tds + loading + munshi + commission + pod + shortage;
+  const due       = total + halting - totalPaid;
+
+  // Update calc display
+  set('d_total',   inr(total));
+  set('d_adv',     adv>0       ? inr(adv)        : '—');
+  set('d_tds',     tds>0       ? inr(tds)        : '—');
+  set('d_loading', loading>0   ? inr(loading)    : '—');
+  set('d_halting', halting>0   ? inr(halting)    : '—');
+  set('d_munshi',  munshi>0    ? inr(munshi)     : '—');
+  set('d_comm',    commission>0? inr(commission) : '—');
+  set('d_pod',     pod>0       ? inr(pod)        : '—');
+  set('d_shortage',shortage>0  ? inr(shortage)   : '—');
+
+  const pEl = document.getElementById('d_paid');
+  pEl.textContent = inr(totalPaid);
+  pEl.className = 'tv green';
+
+  const dEl = document.getElementById('d_due');
+  dEl.textContent = due<=0 ? '₹0.00  ✓' : inr(due);
+  dEl.className = 'tv '+(due<=0?'green':'red');
+
+  const ok = gs('lr_no') && gs('vehicle_no') && total>0;
+  const btn = document.getElementById('pdfBtn');
+  btn.disabled = !ok;
+
+  return {total,adv,tds,loading,halting,munshi,commission,pod,shortage,totalPaid,due};
+}
+
+/* ═══ GET FORM DATA ═══ */
+function getData(){
+  const c=rc();
+  return {
+    lr_no:gs('lr_no'), date:gs('trip_date'), vehicle:gs('vehicle_no'),
+    from:gs('from_place'), to:gs('to_place'), party:gs('party_name'),
+    material:gs('material'), driver:gs('driver_name'), driver_mob:gs('driver_mob'),
+    rate:gn('lorry_rate'), tons:gn('lorry_tons'),
+    total:c.total, adv:c.adv, tds:c.tds, loading:c.loading,
+    halting:c.halting, munshi:c.munshi, commission:c.commission,
+    pod:c.pod, shortage:c.shortage, totalPaid:c.totalPaid, due:c.due,
+    status:gs('trip_status')||'Active', pod_status:gs('pod_status'),
+    epod:gs('epod'), remarks:gs('remarks'), savedAt:new Date().toISOString()
+  };
+}
+
+/* ═══ SAVE ═══ */
+function saveTrip(){
+  const d=getData();
+  if(!d.lr_no){ toast('⚠️ Enter LR Number'); return; }
+  if(!d.vehicle){ toast('⚠️ Enter Vehicle Number'); return; }
+  if(!d.total){ toast('⚠️ Enter Total Amount'); return; }
+  const i=trips.findIndex(t=>t.lr_no===d.lr_no);
+  if(i>=0){trips[i]=d;toast('✅ Updated: '+d.lr_no);}
+  else{trips.unshift(d);toast('✅ Saved: '+d.lr_no);}
+  localStorage.setItem('rrp_v3',JSON.stringify(trips));
+  updStats();
+}
+
+/* ═══ CLEAR ═══ */
+function clearForm(){
+  ['lr_no','trip_date','vehicle_no','from_place','to_place','party_name','material',
+   'driver_name','driver_mob','lorry_rate','lorry_tons','lorry_total',
+   'adv','tds','loading','halting','munshi','commission','pod','shortage','epod','remarks']
+  .forEach(id=>{ document.getElementById(id).value=''; });
+  document.getElementById('trip_status').value='Trip Closed';
+  document.getElementById('pod_status').value='Submitted';
+  rc();
+}
+
+/* ═══ LOAD TRIP ═══ */
+function loadTrip(lr){
+  const t=trips.find(x=>x.lr_no===lr);
+  if(!t) return;
+  const m={lr_no:'lr_no',date:'trip_date',vehicle:'vehicle_no',from:'from_place',to:'to_place',
+    party:'party_name',material:'material',driver:'driver_name',driver_mob:'driver_mob',
+    total:'lorry_total',adv:'adv',tds:'tds',loading:'loading',halting:'halting',
+    munshi:'munshi',commission:'commission',pod:'pod',shortage:'shortage',
+    epod:'epod',remarks:'remarks',rate:'lorry_rate',tons:'lorry_tons'};
+  Object.entries(m).forEach(([k,id])=>{ const el=document.getElementById(id); if(el) el.value=t[k]||''; });
+  document.getElementById('trip_status').value=t.status||'Trip Closed';
+  document.getElementById('pod_status').value=t.pod_status||'Submitted';
+  rc(); sw('new'); toast('📂 Loaded: '+lr);
+}
+
+/* ═══ MARK CLOSED ═══ */
+function markClosed(lr){
+  if(!confirm('Mark '+lr+' as Closed with ₹0 due?')) return;
+  const t=trips.find(x=>x.lr_no===lr);
+  if(!t) return;
+  t.status='Trip Closed'; t.due=0;
+  localStorage.setItem('rrp_v3',JSON.stringify(trips));
+  renderHist(); updStats(); toast('✅ Closed: '+lr);
+}
+
+/* ═══ DELETE ═══ */
+function delTrip(lr){
+  if(!confirm('Delete '+lr+'?')) return;
+  trips=trips.filter(t=>t.lr_no!==lr);
+  localStorage.setItem('rrp_v3',JSON.stringify(trips));
+  renderHist(); updStats(); toast('🗑️ Deleted: '+lr);
+}
+
+/* ═══ RENDER HISTORY ═══ */
+function renderHist(){
+  const w=document.getElementById('histList');
+  if(!trips.length){w.innerHTML='<div class="empty">No trips saved yet. Create your first trip entry.</div>';return;}
+  w.innerHTML=trips.map(t=>{
+    const closed=t.status==='Trip Closed'&&(t.due||0)<=0;
+    const due=Math.max(0,parseFloat(t.due)||0);
+    return `<div class="hitem${closed?' closed':''}" onclick="loadTrip('${t.lr_no}')">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:3px">
+          <span class="hlrno">${t.lr_no}</span>
+          <span class="dbadge ${due>0?'open':'zero'}">${due>0?'DUE '+inr(due):'✓ PAID'}</span>
+          ${closed?'<span>✅</span>':''}
+        </div>
+        <div class="hmeta">
+          <span>${t.vehicle||'—'}</span>
+          <span>${t.from||'—'} → ${t.to||'—'}</span>
+          ${t.material?`<span class="htag">${t.material}</span>`:''}
+          <span class="htag ${closed?'c':'o'}">${t.status}</span>
+          <span class="htag">Total: ${inr(t.total||0)}</span>
+        </div>
+        <div style="font-size:9px;color:var(--gray-dark);margin-top:2px">${t.date?fdt(t.date):''} ${t.party?'| '+t.party:''}</div>
+      </div>
+      <div class="hacts" onclick="event.stopPropagation()">
+        <button class="mb mpdf" onclick="makePDF('${t.lr_no}')">PDF</button>
+        ${!closed?`<button class="mb mclose" onclick="markClosed('${t.lr_no}')">Close</button>`:''}
+        <button class="mb mdel" onclick="delTrip('${t.lr_no}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══ STATS ═══ */
+function updStats(){
+  const due=trips.reduce((s,t)=>s+Math.max(0,parseFloat(t.due)||0),0);
+  const paid=trips.reduce((s,t)=>s+(parseFloat(t.totalPaid)||0),0);
+  set('s_total',trips.length); set('s_due',short(due)); set('s_paid',short(paid));
+}
+
+/* ═══ TAB SWITCH ═══ */
+function sw(t){
+  document.getElementById('pane-new').style.display = t==='new'?'block':'none';
+  document.getElementById('pane-hist').style.display= t==='hist'?'block':'none';
+  document.getElementById('tab-new').className = 'tab'+(t==='new'?' active':'');
+  document.getElementById('tab-hist').className = 'tab'+(t==='hist'?' active':'');
+  if(t==='hist'){renderHist();updStats();}
+}
+
+/* ══════════════════════════════════════════════════════════
+   PDF — PROFESSIONAL A4 RECEIPT
+   ══════════════════════════════════════════════════════════ */
+function makePDF(lr_no){
+  // Wait for jsPDF to load
+  const JPdf = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+  if(!JPdf){ toast('⏳ PDF library loading, try again...'); return; }
+
+  let t;
+  if(lr_no){ t=trips.find(x=>x.lr_no===lr_no); if(!t){toast('Not found');return;} }
+  else { t=getData(); if(!t.lr_no||!t.total){toast('⚠️ Fill LR No + Total Amount');return;} }
+
+  const doc = new JPdf({orientation:'portrait',unit:'mm',format:'a4'});
+  const W=210, H=297, ML=14, MR=196;
+  const isClosed = t.status==='Trip Closed' && (parseFloat(t.due)||0)<=0;
+
+  /* PAGE BG */
+  doc.setFillColor(248,250,253);
+  doc.rect(0,0,W,H,'F');
+
+  /* HEADER */
+  doc.setFillColor(10,23,60);
+  doc.rect(0,0,W,44,'F');
+
+  /* Logo box */
+  doc.setFillColor(0,162,232);
+  doc.roundedRect(ML,8,26,26,3,3,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(0,0,0);
+  doc.text('RRP',ML+13,23,{align:'center'});
+
+  /* Co name */
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(19);
+  doc.setTextColor(255,255,255);
+  doc.text('RRP ENTERPRISES',ML+32,17);
+
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(160,184,220);
+  doc.text('Pan-India Logistics & Transport | Anantapuramu, Andhra Pradesh 515001',ML+32,23);
+  doc.text('+91 94948 31803  |  +91 90148 84668  |  contact@rrpenterprises.co.in',ML+32,29);
+  doc.text('rrpenterprises.co.in  |  GST Reg.',ML+32,35);
+
+  /* Receipt title + LR */
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(10);
+  doc.setTextColor(255,255,255);
+  doc.text('LORRY RECEIPT',MR,14,{align:'right'});
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(0,162,232);
+  doc.text(t.lr_no||'',MR,21,{align:'right'});
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(160,184,220);
+  doc.text(t.date?fdt(t.date):'',MR,28,{align:'right'});
+
+  /* CLOSED WATERMARK */
+  if(isClosed){
+    doc.saveGraphicsState();
+    doc.setGState(doc.GState({opacity:0.06}));
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(60);
+    doc.setTextColor(16,185,129);
+    doc.text('TRIP CLOSED',W/2,155,{align:'center',angle:38});
+    doc.restoreGraphicsState();
+  }
+
+  let y=52;
+
+  /* TRIP INFO BOX */
+  doc.setFillColor(255,255,255);
+  doc.roundedRect(ML,y,W-ML*2,47,2,2,'F');
+  doc.setDrawColor(210,225,245);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(ML,y,W-ML*2,47,2,2,'S');
+
+  const lbl=(x,yy,s)=>{doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(120,145,180);doc.text(s,x,yy);};
+  const val=(x,yy,s)=>{doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(10,25,65);doc.text(String(s||'—'),x,yy);};
+  const c1=ML+4, c2=82, c3=148;
+
+  lbl(c1,y+8,'VEHICLE NO');        val(c1,y+14,t.vehicle||'—');
+  lbl(c2,y+8,'ROUTE');             val(c2,y+14,(t.from||'—')+' → '+(t.to||'—'));
+  lbl(c3,y+8,'DATE');              val(c3,y+14,t.date?fdt(t.date):'—');
+
+  lbl(c1,y+23,'PARTY / CONSIGNOR');val(c1,y+29,t.party||'—');
+  lbl(c2,y+23,'MATERIAL');         val(c2,y+29,t.material||'—');
+  lbl(c3,y+23,'QUANTITY');         val(c3,y+29,t.tons?t.tons+' Tons':'—');
+
+  lbl(c1,y+38,'DRIVER');           val(c1,y+44,t.driver||'—');
+  lbl(c2,y+38,'DRIVER MOBILE');    val(c2,y+44,t.driver_mob||'—');
+  lbl(c3,y+38,'LORRY RATE');       val(c3,y+44,t.rate?inr(t.rate)+'/Ton':'—');
+
+  y+=55;
+
+  /* TABLE HEADER */
+  doc.setFillColor(10,23,60);
+  doc.rect(ML,y,W-ML*2,8,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(8);
+  doc.setTextColor(255,255,255);
+  doc.text('PARTICULARS',ML+4,y+5.5);
+  doc.text('AMOUNT (₹)',MR-1,y+5.5,{align:'right'});
+  y+=8;
+
+  /* TABLE ROWS */
+  const rows=[
+    {l:'Lorry Total Amount',            v:t.total,      bold:true,  plus:false},
+    {l:'(−) Advance Paid',              v:t.adv,        bold:false, plus:false},
+    {l:'(−) TDS',                       v:t.tds,        bold:false, plus:false},
+    {l:'(−) Loading Expenses',          v:t.loading,    bold:false, plus:false},
+    {l:'(+) Halting Charges',           v:t.halting,    bold:false, plus:true},
+    {l:'(−) Munshi Charges',            v:t.munshi,     bold:false, plus:false},
+    {l:'(−) Office Commission',         v:t.commission, bold:false, plus:false},
+    {l:'(−) POD Charges',               v:t.pod,        bold:false, plus:false},
+    {l:'(−) Shortage / Damage',         v:t.shortage,   bold:false, plus:false},
+  ];
+
+  rows.forEach((r,i)=>{
+    const rv=parseFloat(r.v)||0;
+    doc.setFillColor(i%2===0?255:249, i%2===0?255:252, i%2===0?255:255);
+    doc.rect(ML,y,W-ML*2,8,'F');
+    doc.setDrawColor(230,238,250); doc.setLineWidth(0.1); doc.line(ML,y+8,MR,y+8);
+
+    doc.setFont('helvetica',r.bold?'bold':'normal');
+    doc.setFontSize(r.bold?9:8.5);
+    doc.setTextColor(r.bold?10:55, r.bold?25:70, r.bold?65:95);
+    doc.text(r.l,ML+4,y+5.5);
+
+    if(r.plus) doc.setTextColor(5,120,60);
+    else if(rv===0) doc.setTextColor(180,190,200);
+    else doc.setTextColor(r.bold?10:55, r.bold?25:70, r.bold?65:95);
+
+    doc.setFont('helvetica',r.bold?'bold':'normal');
+    doc.text(rv===0?'—':inr(rv),MR-1,y+5.5,{align:'right'});
+    y+=8;
+  });
+
+  /* SEPARATOR */
+  doc.setDrawColor(130,165,210); doc.setLineWidth(0.6); doc.line(ML,y+2,MR,y+2);
+  y+=6;
+
+  /* TOTAL PAID */
+  doc.setFillColor(225,250,237);
+  doc.rect(ML,y,W-ML*2,11,'F');
+  doc.setDrawColor(16,185,129); doc.setLineWidth(0.4); doc.rect(ML,y,W-ML*2,11,'S');
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(5,95,50);
+  doc.text('LORRY TOTAL PAID',ML+4,y+7.5);
+  doc.text(inr(t.totalPaid||0),MR-1,y+7.5,{align:'right'});
+  y+=11;
+
+  /* DUE */
+  const dueAmt=Math.max(0,parseFloat(t.due)||0);
+  if(dueAmt>0){
+    doc.setFillColor(255,232,232);
+    doc.rect(ML,y,W-ML*2,11,'F');
+    doc.setDrawColor(239,68,68); doc.setLineWidth(0.4); doc.rect(ML,y,W-ML*2,11,'S');
+    doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(180,0,0);
+    doc.text('LORRY DUE  (BALANCE PAYABLE)',ML+4,y+7.5);
+    doc.text(inr(dueAmt),MR-1,y+7.5,{align:'right'});
+  } else {
+    doc.setFillColor(225,250,237);
+    doc.rect(ML,y,W-ML*2,11,'F');
+    doc.setDrawColor(16,185,129); doc.setLineWidth(0.4); doc.rect(ML,y,W-ML*2,11,'S');
+    doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(5,95,50);
+    doc.text('LORRY DUE  — NIL  ✓',ML+4,y+7.5);
+    doc.text('₹0.00',MR-1,y+7.5,{align:'right'});
+  }
+  y+=16;
+
+  /* TRIP CLOSED BANNER */
+  if(isClosed){
+    doc.setFillColor(16,185,129);
+    doc.roundedRect(ML,y,W-ML*2,14,3,3,'F');
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(255,255,255);
+    doc.text('✓   TRIP CLOSED — PAYMENT COMPLETE',W/2,y+9.5,{align:'center'});
+    y+=18;
+  }
+
+  /* STATUS BAR */
+  doc.setFillColor(238,244,255);
+  doc.roundedRect(ML,y,W-ML*2,11,2,2,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(70,100,150);
+  doc.text('Trip Status: '+t.status,ML+4,y+7);
+  doc.text('POD: '+(t.pod_status||'—'),110,y+7);
+  if(t.epod){ doc.setTextColor(0,100,200); doc.text('ePOD: '+t.epod.substring(0,35),MR-1,y+7,{align:'right'}); }
+  y+=15;
+
+  /* REMARKS */
+  if(t.remarks){
+    doc.setFont('helvetica','italic'); doc.setFontSize(8); doc.setTextColor(100,120,155);
+    doc.text('Remarks: '+t.remarks,ML,y);
+    y+=10;
+  }
+
+  /* SIGNATURES */
+  const sy=Math.max(y+8,232);
+  doc.setDrawColor(180,200,220); doc.setLineWidth(0.4);
+  doc.line(ML,sy,ML+55,sy);
+  doc.line(MR-55,sy,MR,sy);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7); doc.setTextColor(130,150,180);
+  doc.text('Driver / Owner Signature',ML,sy+5);
+  doc.text('Authorised Signatory — RRP Enterprises',MR,sy+5,{align:'right'});
+
+  /* FOOTER BAND */
+  doc.setFillColor(10,23,60);
+  doc.rect(0,H-17,W,17,'F');
+  doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(140,160,200);
+  doc.text('This is a computer-generated Lorry Receipt. Subject to exclusive jurisdiction of courts in Anantapuramu, Andhra Pradesh.',ML,H-10);
+  doc.text('RRP Enterprises | Powered by RRP-TMS | Generated: '+new Date().toLocaleString('en-IN'),MR,H-10,{align:'right'});
+  doc.text('Late payments attract interest @ 18% per annum. Subject to RRP Terms & Conditions.',ML,H-5);
+  doc.text('Page 1 of 1',MR,H-5,{align:'right'});
+
+  /* SAVE */
+  const fname='RRP_'+t.lr_no+'_'+(isClosed?'CLOSED':'RECEIPT')+'_'+((t.date||'').replace(/-/g,''))+'.pdf';
+  doc.save(fname);
+  toast('✅ PDF saved: '+fname);
+}
+
+/* ═══ TOAST ═══ */
+let tt;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('show'),3500);
+}
+
+/* ═══ INIT ═══ */
+document.getElementById('trip_date').value = new Date().toISOString().split('T')[0];
+rc();
+updStats();
+</script>
+</body>
+</html>
