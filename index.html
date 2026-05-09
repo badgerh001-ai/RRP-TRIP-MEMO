@@ -3,90 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0d2445">
 <title>RRP Trip Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap');
-:root{
-  --bg:#03080f;--bg-card:#060e1a;--bg-card2:#080f1e;--navy:#0a1628;
-  --brand:#00A2E8;--brand2:#0077b6;--brand-light:#33C2FF;--brand-glow:rgba(0,162,232,0.15);
-  --white:#fff;--gray:#8aa8cc;--gray-dark:#3d5472;
-  --success:#06d6a0;--danger:#ef4444;--warning:#f59e0b;
-  --border:rgba(255,255,255,0.06);--border2:rgba(0,162,232,0.2);
-  --gold:#c9a84c;--gold-light:#e8c97a;
-}
+:root{--bg:#03080f;--bg-card:#060e1a;--bg-card2:#080f1e;--brand:#00A2E8;--brand2:#0077b6;--brand-light:#33C2FF;--white:#fff;--gray:#8aa8cc;--gray-dark:#3d5472;--success:#06d6a0;--danger:#ef4444;--border:rgba(255,255,255,0.06);--border2:rgba(0,162,232,0.2);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden;}
-
-/* ── HEADER ── */
-header{
-  background:linear-gradient(180deg,#040b16 0%,#03080f 100%);
-  border-bottom:1px solid rgba(0,162,232,0.12);
-  padding:0 20px;display:flex;align-items:center;justify-content:space-between;
-  height:64px;position:sticky;top:0;z-index:100;
-}
+header{background:linear-gradient(180deg,#040b16,#03080f);border-bottom:1px solid rgba(0,162,232,0.12);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;}
 header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,162,232,0.4),transparent);}
 .hlogo{display:flex;align-items:center;gap:14px;}
 .hlogo img{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid rgba(0,162,232,0.3);}
-.hlogo-text{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:1.5px;line-height:1.1;color:#fff;}
+.hlogo-text{font-family:'Rajdhani',sans-serif;font-size:19px;font-weight:700;letter-spacing:1.5px;line-height:1.1;}
 .hlogo-text small{display:block;font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:var(--brand);letter-spacing:3px;margin-top:1px;}
-.header-right{display:flex;align-items:center;gap:10px;}
 .live-pill{background:rgba(6,214,160,0.1);color:var(--success);font-size:9px;font-weight:700;padding:4px 10px;border-radius:20px;display:flex;align-items:center;gap:5px;border:1px solid rgba(6,214,160,0.25);letter-spacing:1px;}
 .dot{width:5px;height:5px;background:var(--success);border-radius:50%;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-.sync-pill{font-size:9px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;}
+.sync-pill{font-size:9px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;cursor:pointer;}
 .sync-ok{background:rgba(6,214,160,0.1);color:var(--success);border:1px solid rgba(6,214,160,0.25);}
 .sync-err{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.25);}
 .sync-ing{background:rgba(0,162,232,0.1);color:var(--brand);border:1px solid rgba(0,162,232,0.25);}
-
-/* ── LAYOUT ── */
 .wrap{max-width:920px;margin:0 auto;padding:24px 16px 100px;}
-
-/* ── TABS ── */
 .tabs{display:flex;margin-bottom:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:4px;gap:4px;}
 .tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gray);transition:all 0.25s;border:none;background:transparent;border-radius:9px;text-transform:uppercase;}
 .tab.active{background:linear-gradient(135deg,var(--brand2),var(--brand));color:#fff;}
 .tab:hover:not(.active){background:rgba(255,255,255,0.04);color:var(--white);}
-
-/* ── CARDS ── */
-.card{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:16px;padding:20px;margin-bottom:16px;
-  position:relative;overflow:hidden;
-}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden;}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,162,232,0.3),transparent);}
-.ctitle{
-  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--brand);margin-bottom:16px;padding-bottom:12px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;
-}
+.ctitle{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--brand);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
 .ctitle::before{content:'';display:inline-block;width:3px;height:12px;background:var(--brand);border-radius:2px;}
-
-/* ── GRIDS ── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
 .fg{display:flex;flex-direction:column;gap:5px;position:relative;}
 .gap{margin-bottom:14px;}
-
-/* ── FORM ELEMENTS ── */
 label{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--gray);text-transform:uppercase;}
-input,select{
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:8px;padding:10px 13px;
-  color:var(--white);font-size:13px;font-family:'Inter',sans-serif;
-  outline:none;width:100%;transition:all 0.2s;-webkit-appearance:none;
-}
+input,select{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:10px 13px;color:var(--white);font-size:13px;font-family:'Inter',sans-serif;outline:none;width:100%;transition:all 0.2s;-webkit-appearance:none;}
 input[type=number]{font-weight:600;}
-input::placeholder{color:var(--gray-dark);font-weight:400;}
+input::placeholder{color:var(--gray-dark);}
 input:focus,select:focus{border-color:var(--brand);background:rgba(0,162,232,0.04);box-shadow:0 0 0 3px rgba(0,162,232,0.1);}
 select option{background:#060e1a;}
 .auto-inp input{border-color:rgba(0,162,232,0.3);background:rgba(0,162,232,0.03);}
-
-/* ── CALC BOX ── */
 .calc-box{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:16px;margin-top:16px;}
 .crow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
 .crow:last-child{border-bottom:none;}
@@ -95,8 +50,6 @@ select option{background:#060e1a;}
 .cv{font-size:13px;font-weight:700;}
 .cv.blue{color:var(--brand-light);}
 .cv.green{color:var(--success);}
-
-/* ── TOTALS ── */
 .totals{display:grid;grid-template-columns:1fr 1fr;margin-top:16px;border-radius:12px;overflow:hidden;border:1px solid rgba(0,162,232,0.2);}
 .tcell{background:var(--bg-card2);padding:18px;text-align:center;}
 .tcell+.tcell{border-left:1px solid rgba(0,162,232,0.15);}
@@ -104,11 +57,8 @@ select option{background:#060e1a;}
 .tl{font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:6px;font-weight:600;}
 .tv.green{color:var(--success);}
 .tv.red{color:var(--danger);}
-
-/* ── BUTTONS ── */
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;padding:13px 20px;transition:all 0.2s;width:100%;font-family:'Inter',sans-serif;letter-spacing:0.3px;}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;padding:13px 20px;transition:all 0.2s;width:100%;font-family:'Inter',sans-serif;}
 .btn:hover{transform:translateY(-1px);}
-.btn:active{transform:translateY(0);}
 .btn-primary{background:linear-gradient(135deg,#0077b6,#00A2E8);color:#fff;}
 .btn-ghost{background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--gray);}
 .btn-ghost:hover{background:rgba(255,255,255,0.06);color:var(--white);}
@@ -117,25 +67,14 @@ select option{background:#060e1a;}
 .btn-pdf{background:linear-gradient(135deg,#991b1b,#dc2626);color:#fff;}
 .btn-wa{background:linear-gradient(135deg,#065f46,#059669);color:#fff;}
 .btn-share{background:linear-gradient(135deg,#3730a3,#6d28d9);color:#fff;}
-
-/* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-.stat{
-  background:var(--bg-card);border:1px solid var(--border);border-radius:14px;
-  padding:16px;text-align:center;position:relative;overflow:hidden;
-}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;position:relative;overflow:hidden;}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,162,232,0.3),transparent);}
 .stat-n{font-size:26px;font-weight:800;color:var(--brand);line-height:1;font-family:'Rajdhani',sans-serif;}
 .stat-l{font-size:9px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:5px;font-weight:600;}
-
-/* ── HISTORY ITEMS ── */
-.hitem{
-  background:var(--bg-card);border:1px solid var(--border);
-  border-radius:12px;padding:14px 16px;margin-bottom:10px;
-  cursor:pointer;transition:all 0.2s;
-}
+.hitem{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;}
 .hitem:hover{border-color:var(--brand2);background:rgba(0,122,180,0.04);}
-.hitem.closed{border-color:rgba(6,214,160,0.2);background:rgba(6,214,160,0.02);}
+.hitem.closed{border-color:rgba(6,214,160,0.2);}
 .hlrno{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:0.5px;}
 .hmeta{font-size:10px;color:var(--gray);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .htag{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);padding:2px 8px;border-radius:4px;font-size:9px;font-weight:700;}
@@ -143,37 +82,36 @@ select option{background:#060e1a;}
 .dbadge.open{background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.2);}
 .dbadge.zero{background:rgba(6,214,160,0.1);color:var(--success);border:1px solid rgba(6,214,160,0.2);}
 .hacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
-.mb{padding:6px 12px;border-radius:7px;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;}
+.mb{padding:6px 12px;border-radius:7px;border:none;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
 .mb.mpdf{background:rgba(220,38,38,0.12);color:#fca5a5;border:1px solid rgba(220,38,38,0.15);}
 .mb.mwa{background:rgba(5,150,105,0.12);color:#6ee7b7;border:1px solid rgba(5,150,105,0.15);}
 .mb.mclose{background:rgba(6,214,160,0.1);color:var(--success);border:1px solid rgba(6,214,160,0.15);}
 .mb.mdel{background:rgba(255,255,255,0.04);color:var(--gray-dark);border:1px solid var(--border);}
 .mb:hover{opacity:0.8;}
 .empty{text-align:center;padding:48px;color:var(--gray-dark);font-size:13px;}
-
-/* ── AUTOCOMPLETE ── */
 .ac-wrap{position:relative;}
 .ac-drop{position:absolute;top:100%;left:0;right:0;background:#07111f;border:1px solid rgba(0,162,232,0.35);border-radius:10px;z-index:50;max-height:200px;overflow-y:auto;margin-top:3px;display:none;}
 .ac-drop.show{display:block;}
 .ac-item{padding:10px 14px;cursor:pointer;font-size:12px;color:var(--white);border-bottom:1px solid rgba(255,255,255,0.04);}
 .ac-item:hover{background:rgba(0,162,232,0.1);color:var(--brand-light);}
 .ac-item small{color:var(--gray-dark);font-size:10px;margin-left:8px;}
-
-/* ── PAYMENT LEDGER ── */
 .pay-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
 .pay-row{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px;}
 .pay-row-grid{display:grid;grid-template-columns:130px 1fr 120px 1fr 34px;gap:8px;align-items:end;}
 .pay-del{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);color:var(--danger);border-radius:7px;width:34px;height:38px;cursor:pointer;font-size:18px;font-weight:700;}
-.add-pay-btn{width:100%;padding:11px;border:1px dashed rgba(0,162,232,0.25);border-radius:10px;background:rgba(0,162,232,0.02);color:var(--brand);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;}
+.add-pay-btn{width:100%;padding:11px;border:1px dashed rgba(0,162,232,0.25);border-radius:10px;background:rgba(0,162,232,0.02);color:var(--brand);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
 .add-pay-btn:hover{background:rgba(0,162,232,0.06);border-color:var(--brand);}
 .pay-history{margin-top:8px;}
 .pay-hist-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;margin-bottom:6px;background:rgba(6,214,160,0.04);border:1px solid rgba(6,214,160,0.12);}
-.pay-hist-lbl{font-size:11px;color:var(--gray);}
 .pay-hist-amt{font-size:14px;font-weight:800;color:var(--success);font-family:'Rajdhani',sans-serif;}
 .pay-hist-meta{font-size:10px;color:var(--gray-dark);}
+.pay-hist-lbl{font-size:11px;color:var(--gray);}
 .sec-lbl{font-size:9px;font-weight:700;color:var(--gray-dark);letter-spacing:1.5px;text-transform:uppercase;margin:16px 0 10px;}
-
-/* ── TOAST & LOADER ── */
+.sync-banner{background:rgba(0,162,232,0.06);border:1px solid rgba(0,162,232,0.2);border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.sync-banner.hide{display:none;}
+.sync-banner-txt{font-size:12px;color:var(--gray);line-height:1.5;}
+.sync-banner-txt b{color:var(--brand-light);}
+.sync-banner-btn{background:var(--brand);color:#000;border:none;border-radius:7px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;}
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120px);background:#071422;color:#fff;border:1px solid rgba(0,162,232,0.3);padding:12px 28px;border-radius:30px;font-size:12px;font-weight:700;z-index:9999;transition:transform 0.35s cubic-bezier(0.175,0.885,0.32,1.275);}
 .toast.show{transform:translateX(-50%) translateY(0);}
 .loader{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9998;align-items:center;justify-content:center;flex-direction:column;gap:14px;}
@@ -181,20 +119,20 @@ select option{background:#060e1a;}
 .spinner{width:44px;height:44px;border:3px solid rgba(0,162,232,0.15);border-top-color:var(--brand);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loader-txt{font-size:12px;color:var(--gray);font-weight:600;letter-spacing:0.5px;}
-
-@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}.pay-row-grid{grid-template-columns:1fr 1fr;gap:6px;}.btn-row{flex-direction:column;}.action-row{grid-template-columns:1fr 1fr;}}
-@media(max-width:380px){.g2,.g3,.g4{grid-template-columns:1fr;}.action-row{grid-template-columns:1fr;}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr 1fr;}.pay-row-grid{grid-template-columns:1fr 1fr;gap:6px;}.btn-row{flex-direction:column;}.action-row{grid-template-columns:1fr 1fr;}}
+@media(max-width:380px){.g2,.g3{grid-template-columns:1fr;}.action-row{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="hlogo">
-    <div style="width:36px;height:36px;border-radius:6px;background:var(--brand);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#000;">RRP</div>
+    <img src="https://i.ibb.co/R9tD6GP/logo.png" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex'" alt="RRP">
+    <div id="logoFallback" style="display:none;width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#0077b6,#00A2E8);align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:#fff;">RRP</div>
     <div class="hlogo-text">ENTERPRISES<small>TRIP BOARD</small></div>
   </div>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <span class="sync-pill sync-ing" id="syncStatus">CONNECTING...</span>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="sync-pill sync-ok" id="syncStatus" onclick="requestSync()" title="Click to sync from Sheets">● SHEETS LIVE</span>
     <div class="live-pill"><div class="dot"></div>LIVE</div>
   </div>
 </header>
@@ -202,6 +140,16 @@ select option{background:#060e1a;}
 <div class="loader" id="loader"><div class="spinner"></div><div class="loader-txt" id="loaderTxt">Loading...</div></div>
 
 <div class="wrap">
+
+  <!-- SYNC BANNER -->
+  <div class="sync-banner" id="syncBanner">
+    <div class="sync-banner-txt">
+      <b>🔄 Sync with Google Sheets</b><br>
+      To load your latest trips & payments, ask Claude: <b>"sync my trip data"</b> or click below.
+    </div>
+    <button class="sync-banner-btn" onclick="requestSync()">Sync Now</button>
+  </div>
+
   <div class="tabs">
     <button class="tab active" id="tab-new" onclick="sw('new')">+ New Trip</button>
     <button class="tab" id="tab-hist" onclick="sw('hist')">Trip History</button>
@@ -250,20 +198,21 @@ select option{background:#060e1a;}
       <div class="g2 gap" style="margin-top:12px;">
         <div class="fg"><label>POD (Rs.)</label><input type="number" id="pod" placeholder="0" min="0" oninput="rc()"></div>
       </div>
-
       <div class="calc-box">
         <div class="crow"><span class="cl" style="color:var(--white);font-weight:700;">Lorry Total Amount</span><span class="cv blue" id="d_total">Rs.0.00</span></div>
         <div class="crow"><span class="cl indent">+ Halting</span><span class="cv green" id="d_halting">--</span></div>
-        <div class="crow"><span class="cl indent">- TDS</span><span class="cv" id="d_tds">--</span></div>
-        <div class="crow"><span class="cl indent">- Loading</span><span class="cv" id="d_loading">--</span></div>
-        <div class="crow"><span class="cl indent">- Munshi</span><span class="cv" id="d_munshi">--</span></div>
-        <div class="crow"><span class="cl indent">- Commission</span><span class="cv" id="d_comm">--</span></div>
-        <div class="crow"><span class="cl indent">- POD</span><span class="cv" id="d_pod">--</span></div>
-        <div class="crow"><span class="cl indent">- Shortage</span><span class="cv" id="d_shortage">--</span></div>
-        <div class="crow" style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;"><span class="cl" style="color:var(--white);font-weight:700;">Gross Payable</span><span class="cv blue" id="d_gross">Rs.0.00</span></div>
+        <div class="crow"><span class="cl indent">− TDS</span><span class="cv" id="d_tds">--</span></div>
+        <div class="crow"><span class="cl indent">− Loading</span><span class="cv" id="d_loading">--</span></div>
+        <div class="crow"><span class="cl indent">− Munshi</span><span class="cv" id="d_munshi">--</span></div>
+        <div class="crow"><span class="cl indent">− Commission</span><span class="cv" id="d_comm">--</span></div>
+        <div class="crow"><span class="cl indent">− POD</span><span class="cv" id="d_pod">--</span></div>
+        <div class="crow"><span class="cl indent">− Shortage</span><span class="cv" id="d_shortage">--</span></div>
+        <div class="crow" style="margin-top:6px;border-top:1px solid rgba(255,255,255,0.08);padding-top:8px;">
+          <span class="cl" style="color:var(--white);font-weight:700;">Gross Payable</span><span class="cv blue" id="d_gross">Rs.0.00</span>
+        </div>
       </div>
       <div class="totals">
-        <div class="tcell"><div class="tv green" id="d_paid_total">Rs.0.00</div><div class="tl">Total Paid (All Payments)</div></div>
+        <div class="tcell"><div class="tv green" id="d_paid_total">Rs.0.00</div><div class="tl">Total Paid</div></div>
         <div class="tcell"><div class="tv red" id="d_due">Rs.0.00</div><div class="tl">Balance Due</div></div>
       </div>
     </div>
@@ -276,14 +225,18 @@ select option{background:#060e1a;}
       </div>
       <div class="sec-lbl">Add New Payment</div>
       <div id="payList" class="pay-list"></div>
-      <button class="add-pay-btn" onclick="addPayRow()">+ Add Payment</button>
+      <button class="add-pay-btn" onclick="addPayRow()">+ Add Payment Entry</button>
     </div>
 
     <div class="card">
       <div class="ctitle">Trip Status</div>
       <div class="g3 gap">
-        <div class="fg"><label>Trip Status</label><select id="trip_status"><option>Trip Closed</option><option>Active</option><option>In Transit</option><option>Pending</option></select></div>
-        <div class="fg"><label>POD Status</label><select id="pod_status"><option>Submitted</option><option>Pending</option><option>Not Required</option></select></div>
+        <div class="fg"><label>Trip Status</label>
+          <select id="trip_status"><option>Trip Closed</option><option>Active</option><option>In Transit</option><option>Pending</option></select>
+        </div>
+        <div class="fg"><label>POD Status</label>
+          <select id="pod_status"><option>Submitted</option><option>Pending</option><option>Not Required</option></select>
+        </div>
         <div class="fg"><label>ePOD Link</label><input id="epod" placeholder="https://drive.google.com/..." oninput="rc()"></div>
       </div>
       <div class="fg"><label>Remarks</label><input id="remarks" placeholder="Optional remarks..." oninput="rc()"></div>
@@ -291,14 +244,13 @@ select option{background:#060e1a;}
 
     <div class="btn-row">
       <button class="btn btn-ghost" style="flex:0.3" onclick="clearForm()">Clear</button>
-      <button class="btn btn-primary" style="flex:1" onclick="saveTrip()">Save to Sheets</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveTrip()">💾 Save to Sheets</button>
     </div>
     <div class="action-row">
-      <button class="btn btn-pdf" onclick="handleAction('download',null)">Download PDF</button>
-      <button class="btn btn-wa" onclick="handleAction('whatsapp',null)">WhatsApp</button>
+      <button class="btn btn-pdf" onclick="handleAction('download',null)">📄 PDF</button>
+      <button class="btn btn-wa"  onclick="handleAction('whatsapp',null)">WhatsApp</button>
       <button class="btn btn-share" onclick="handleAction('share',null)">Share</button>
     </div>
-    <p style="text-align:center;font-size:9px;color:var(--gray-dark);margin-top:8px;">Trips & payments sync to Google Sheets automatically</p>
   </div>
 
   <div id="pane-hist" style="display:none;">
@@ -307,147 +259,74 @@ select option{background:#060e1a;}
       <div class="stat"><div class="stat-n" id="s_due" style="color:var(--danger)">Rs.0</div><div class="stat-l">Total Due</div></div>
       <div class="stat"><div class="stat-n" id="s_paid" style="color:var(--success)">Rs.0</div><div class="stat-l">Total Paid</div></div>
     </div>
-    <div id="histList"><div class="empty">Loading trips...</div></div>
+    <div id="histList"><div class="empty">No trips yet. Save your first trip!</div></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const TRIPS_ID  = '1Y834XnnkhO_ImBtO5482ybN7hc-U_GyjjiAlPj8Wq2Y';
-const PAYS_ID   = '1M9DFOktpSNB1N4w48LxAYlMWuXd3nty-AQl3Zg-8lSw';
-const API_URL   = 'https://api.anthropic.com/v1/messages';
-const MODEL     = 'claude-sonnet-4-20250514';
-
-let trips = [], payments = [], newPays = [], loadedLR = null;
-
-/* ── ANTHROPIC API + DRIVE MCP ── */
-async function callDrive(tool, input) {
-  const res = await fetch(API_URL, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 2000,
-      mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],
-      messages:[{role:'user',content:`Use the gdrive MCP tool "${tool}" with this exact input JSON and return ONLY the raw tool result, no commentary: ${JSON.stringify(input)}`}]
-    })
-  });
-  if(!res.ok) throw new Error('API '+res.status);
-  const data = await res.json();
-  const block = data.content.find(b=>b.type==='mcp_tool_result')||data.content.find(b=>b.type==='text');
-  const raw = block?.content?.[0]?.text || block?.text || '';
-  return raw;
-}
-
-async function readSheet(fileId) {
-  const raw = await callDrive('read_file_content', {file_id: fileId});
-  return raw;
-}
-
-async function writeSheet(fileId, csvContent) {
-  await callDrive('create_file', {
-    title: fileId === TRIPS_ID ? 'RRP Enterprises — Trip Management' : 'RRP Enterprises — Payments Ledger',
-    text_content: csvContent,
-    content_mime_type: 'text/csv',
-    file_id: fileId
-  });
-}
-
-/* ── CSV PARSE / SERIALIZE ── */
-function parseCSV(txt) {
-  if(!txt||!txt.trim()) return [];
-  const lines = txt.trim().split('\n').filter(l=>l.trim());
-  if(lines.length<2) return [];
-  const headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
-  return lines.slice(1).map(line=>{
-    const vals = line.split(',').map(v=>v.trim().replace(/^"|"$/g,''));
-    const obj={};
-    headers.forEach((h,i)=>obj[h]=vals[i]||'');
-    return obj;
-  });
-}
-
-function toCSV(headers, rows) {
-  const esc = v => '"'+String(v||'').replace(/"/g,'""')+'"';
-  return [headers.join(','), ...rows.map(r=>headers.map(h=>esc(r[h]||'')).join(','))].join('\n');
-}
-
-const TRIP_HEADERS = ['lr_no','date','vehicle','from','to','driver','driver_mob','rate','tons','total','tds','loading','halting','munshi','commission','pod','shortage','status','pod_status','epod','remarks','saved_at'];
-const PAY_HEADERS  = ['lr_no','payment_date','amount','mode','note','recorded_at'];
-
-/* ── LOAD FROM SHEETS ── */
-async function loadAll() {
-  setSyncStatus('ing','SYNCING...');
-  try {
-    const [tRaw, pRaw] = await Promise.all([readSheet(TRIPS_ID), readSheet(PAYS_ID)]);
-    trips    = parseCSV(tRaw).filter(t=>t.lr_no);
-    payments = parseCSV(pRaw).filter(p=>p.lr_no);
-    setSyncStatus('ok','SHEETS ✓');
-    updStats();
-    if(document.getElementById('pane-hist').style.display!=='none') renderHist();
-    return true;
-  } catch(e) {
-    setSyncStatus('err','OFFLINE');
-    toast('Could not connect to Sheets — working offline');
-    return false;
-  }
-}
-
-/* ── SAVE TO SHEETS ── */
-async function saveToSheets(tripData, newPayments) {
-  const existIdx = trips.findIndex(t=>t.lr_no===tripData.lr_no);
-  if(existIdx>=0) trips[existIdx]=tripData; else trips.unshift(tripData);
-
-  const filteredPays = payments.filter(p=>p.lr_no!==tripData.lr_no);
-  const allPaysForTrip = [
-    ...filteredPays.filter(p=>p.lr_no===tripData.lr_no),
-    ...newPayments
-  ];
-  payments = [...payments.filter(p=>p.lr_no!==tripData.lr_no), ...newPayments];
-
-  const tripCSV = toCSV(TRIP_HEADERS, trips);
-  const payCSV  = toCSV(PAY_HEADERS, payments);
-
-  await Promise.all([
-    fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      model:MODEL,max_tokens:500,
-      mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],
-      messages:[{role:'user',content:`Use gdrive create_file to overwrite file id ${TRIPS_ID} titled "RRP Enterprises — Trip Management" with this CSV as text_content. Content: ${tripCSV}`}]
-    })}),
-    fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      model:MODEL,max_tokens:500,
-      mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],
-      messages:[{role:'user',content:`Use gdrive create_file to overwrite file id ${PAYS_ID} titled "RRP Enterprises — Payments Ledger" with this CSV as text_content. Content: ${payCSV}`}]
-    })})
-  ]);
-}
-
-/* ── SYNC STATUS ── */
-function setSyncStatus(type, txt) {
-  const el=document.getElementById('syncStatus');
-  el.className='sync-pill sync-'+type;
-  el.textContent=txt;
-}
+/* ══════════════════════════════════════════
+   DATA — injected by Claude on each sync
+   ══════════════════════════════════════════ */
+let trips    = JSON.parse(localStorage.getItem('rrp_trips_v4')    || '[]');
+let payments = JSON.parse(localStorage.getItem('rrp_payments_v4') || '[]');
+let loadedLR = null, payCount = 0;
 
 /* ── HELPERS ── */
-function gn(id){return parseFloat(document.getElementById(id).value)||0;}
-function gs(id){return (document.getElementById(id).value||'').trim();}
-function fmt(v){return (Math.abs(+v)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
-function inr(v){return 'Rs.'+fmt(v);}
-function short(v){v=Math.abs(+v||0);if(v>=10000000)return'Rs.'+(v/10000000).toFixed(1)+'Cr';if(v>=100000)return'Rs.'+(v/100000).toFixed(1)+'L';if(v>=1000)return'Rs.'+(v/1000).toFixed(1)+'K';return'Rs.'+Math.round(v);}
-function fdt(d){if(!d)return'';const[y,m,dd]=d.split('-');return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+parseInt(dd)+', '+y;}
-function setEl(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
-function showLoader(t){document.getElementById('loader').classList.add('on');document.getElementById('loaderTxt').textContent=t||'Loading...';}
-function hideLoader(){document.getElementById('loader').classList.remove('on');}
+const gn = id => parseFloat(document.getElementById(id)?.value) || 0;
+const gs = id => (document.getElementById(id)?.value || '').trim();
+const fmt = v => (Math.abs(+v)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const inr = v => 'Rs.' + fmt(v);
+const short = v => { v=Math.abs(+v||0); if(v>=10000000)return'Rs.'+(v/10000000).toFixed(1)+'Cr'; if(v>=100000)return'Rs.'+(v/100000).toFixed(1)+'L'; if(v>=1000)return'Rs.'+(v/1000).toFixed(1)+'K'; return'Rs.'+Math.round(v); };
+const fdt = d => { if(!d)return''; const[y,m,dd]=d.split('-'); return['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]+' '+parseInt(dd)+', '+y; };
+const setEl = (id,v) => { const e=document.getElementById(id); if(e)e.textContent=v; };
+const showLoader = t => { document.getElementById('loader').classList.add('on'); document.getElementById('loaderTxt').textContent=t||'Loading...'; };
+const hideLoader = () => document.getElementById('loader').classList.remove('on');
+
+function persistLocal() {
+  localStorage.setItem('rrp_trips_v4',    JSON.stringify(trips));
+  localStorage.setItem('rrp_payments_v4', JSON.stringify(payments));
+}
+
+/* ── SYNC REQUEST → sends to Claude ── */
+function requestSync() {
+  sendPrompt('sync rrp trip data from sheets');
+}
+
+/* ── CALLED BY CLAUDE to inject fresh data ── */
+window.injectSheetData = function(tripsJSON, paymentsJSON) {
+  try {
+    trips    = JSON.parse(tripsJSON);
+    payments = JSON.parse(paymentsJSON);
+    persistLocal();
+    setSyncStatus('ok');
+    updStats();
+    if(document.getElementById('pane-hist').style.display!=='none') renderHist();
+    document.getElementById('syncBanner').classList.add('hide');
+    toast('✅ Synced from Google Sheets — '+ trips.length +' trips loaded');
+  } catch(e) { toast('Sync parse error: '+e.message); }
+};
+
+/* ── CALLED BY CLAUDE to inject save confirmation ── */
+window.confirmSaved = function(lr) {
+  setSyncStatus('ok');
+  toast('✅ Saved to Google Sheets: '+lr);
+};
+
+function setSyncStatus(type) {
+  const el = document.getElementById('syncStatus');
+  if(type==='ok')   { el.className='sync-pill sync-ok';  el.textContent='● SHEETS LIVE'; }
+  if(type==='err')  { el.className='sync-pill sync-err'; el.textContent='● OFFLINE'; }
+  if(type==='ing')  { el.className='sync-pill sync-ing'; el.textContent='⟳ SYNCING...'; }
+}
 
 /* ── PAYMENT ROWS ── */
-let payCount=0;
-function addPayRow(date='',amount='',mode='Cash',note='') {
-  const id=++payCount;
-  const div=document.createElement('div');
-  div.className='pay-row'; div.id='pay_'+id;
-  div.innerHTML=`<div class="pay-row-grid">
+function addPayRow(date='', amount='', mode='Cash', note='') {
+  const id = ++payCount;
+  const div = document.createElement('div');
+  div.className = 'pay-row'; div.id = 'pay_' + id;
+  div.innerHTML = `<div class="pay-row-grid">
     <div class="fg"><label>Date</label><input type="date" id="pd_${id}" value="${date}" oninput="rcPay()"></div>
     <div class="fg"><label>Amount (Rs.)</label><input type="number" id="pa_${id}" placeholder="0" value="${amount}" min="0" oninput="rcPay()"></div>
     <div class="fg"><label>Mode</label><select id="pm_${id}">
@@ -464,182 +343,195 @@ function addPayRow(date='',amount='',mode='Cash',note='') {
   rcPay();
 }
 
-function removePayRow(id) {
-  document.getElementById('pay_'+id)?.remove();
-  payCount===id && payCount--;
-  rcPay();
-}
+function removePayRow(id) { document.getElementById('pay_'+id)?.remove(); rcPay(); }
 
 function getNewPays() {
-  const rows=[];
-  document.querySelectorAll('[id^="pd_"]').forEach(el=>{
-    const id=el.id.split('_')[1];
-    const amt=parseFloat(document.getElementById('pa_'+id)?.value)||0;
-    if(amt>0) rows.push({
-      payment_date: document.getElementById('pd_'+id)?.value||'',
+  const rows = [];
+  document.querySelectorAll('[id^="pd_"]').forEach(el => {
+    const id = el.id.split('_')[1];
+    const amt = parseFloat(document.getElementById('pa_'+id)?.value) || 0;
+    if(amt > 0) rows.push({
+      payment_date: document.getElementById('pd_'+id)?.value || '',
       amount: amt,
-      mode: document.getElementById('pm_'+id)?.value||'Cash',
-      note: document.getElementById('pn_'+id)?.value||''
+      mode:   document.getElementById('pm_'+id)?.value || 'Cash',
+      note:   document.getElementById('pn_'+id)?.value || ''
     });
   });
   return rows;
 }
 
-function rcPay(){rc();}
+const rcPay = () => rc();
 
 /* ── RECALC ── */
 function rc() {
   const total=gn('lorry_total'), tds=gn('tds'), loading=gn('loading'),
         halting=gn('halting'), munshi=gn('munshi'), commission=gn('commission'),
         pod=gn('pod'), shortage=gn('shortage');
-  const deductions=tds+loading+munshi+commission+pod+shortage;
-  const gross=total+halting-deductions;
+  const deductions = tds+loading+munshi+commission+pod+shortage;
+  const gross = Math.max(0, total + halting - deductions);
 
-  setEl('d_total',inr(total));
-  setEl('d_halting',halting>0?inr(halting):'--');
-  setEl('d_tds',tds>0?inr(tds):'--');
-  setEl('d_loading',loading>0?inr(loading):'--');
-  setEl('d_munshi',munshi>0?inr(munshi):'--');
-  setEl('d_comm',commission>0?inr(commission):'--');
-  setEl('d_pod',pod>0?inr(pod):'--');
-  setEl('d_shortage',shortage>0?inr(shortage):'--');
-  setEl('d_gross',inr(Math.max(0,gross)));
+  setEl('d_total',   inr(total));
+  setEl('d_halting', halting>0    ? inr(halting)    : '--');
+  setEl('d_tds',     tds>0        ? inr(tds)        : '--');
+  setEl('d_loading', loading>0    ? inr(loading)    : '--');
+  setEl('d_munshi',  munshi>0     ? inr(munshi)     : '--');
+  setEl('d_comm',    commission>0 ? inr(commission) : '--');
+  setEl('d_pod',     pod>0        ? inr(pod)        : '--');
+  setEl('d_shortage',shortage>0   ? inr(shortage)   : '--');
+  setEl('d_gross',   inr(gross));
 
-  const histPays = loadedLR ? payments.filter(p=>p.lr_no===loadedLR).reduce((s,p)=>s+(parseFloat(p.amount)||0),0) : 0;
-  const newPaysTotal = getNewPays().reduce((s,p)=>s+p.amount,0);
-  const totalPaid = histPays + newPaysTotal;
+  const histPaid = loadedLR
+    ? payments.filter(p=>p.lr_no===loadedLR).reduce((s,p)=>s+(parseFloat(p.amount)||0),0)
+    : 0;
+  const newPaid  = getNewPays().reduce((s,p)=>s+p.amount, 0);
+  const totalPaid = histPaid + newPaid;
   const due = Math.max(0, gross - totalPaid);
 
-  document.getElementById('d_paid_total').textContent=inr(totalPaid);
-  const dEl=document.getElementById('d_due');
-  dEl.textContent=due<=0?'PAID IN FULL':inr(due);
-  dEl.className='tv '+(due<=0?'green':'red');
+  document.getElementById('d_paid_total').textContent = inr(totalPaid);
+  const dEl = document.getElementById('d_due');
+  dEl.textContent = due <= 0 ? 'PAID IN FULL' : inr(due);
+  dEl.className = 'tv ' + (due<=0 ? 'green' : 'red');
 
-  return {total,tds,loading,halting,munshi,commission,pod,shortage,gross,totalPaid,due};
+  return {total, tds, loading, halting, munshi, commission, pod, shortage, gross, totalPaid, due};
 }
 
-function autoTotal(){
-  const r=gn('lorry_rate'),t=gn('lorry_tons');
+function autoTotal() {
+  const r=gn('lorry_rate'), t=gn('lorry_tons');
   if(r>0&&t>0) document.getElementById('lorry_total').value=(r*t).toFixed(2);
   rc();
 }
 
 /* ── LR AUTOCOMPLETE ── */
 function onLRInput() {
-  const val = document.getElementById('lr_no').value.trim().toLowerCase();
+  const val = gs('lr_no').toLowerCase();
   const drop = document.getElementById('lrDrop');
-  if(!val||!trips.length){drop.classList.remove('show');return;}
+  if(!val || !trips.length) { drop.classList.remove('show'); return; }
   const matches = trips.filter(t=>t.lr_no.toLowerCase().includes(val)).slice(0,8);
-  if(!matches.length){drop.classList.remove('show');return;}
-  drop.innerHTML = matches.map(t=>`<div class="ac-item" onmousedown="selectLR('${t.lr_no}')">
-    <strong>${t.lr_no}</strong><small>${t.vehicle||''} | ${t.from||''}→${t.to||''}</small>
-  </div>`).join('');
+  if(!matches.length) { drop.classList.remove('show'); return; }
+  drop.innerHTML = matches.map(t=>`
+    <div class="ac-item" onmousedown="selectLR('${t.lr_no}')">
+      <strong>${t.lr_no}</strong>
+      <small>${t.vehicle||''} &nbsp;|&nbsp; ${t.from||''}→${t.to||''}</small>
+    </div>`).join('');
   drop.classList.add('show');
 }
-
-function closeDrop(){document.getElementById('lrDrop').classList.remove('show');}
+function closeDrop() { document.getElementById('lrDrop').classList.remove('show'); }
 
 function selectLR(lr) {
   closeDrop();
-  const t=trips.find(x=>x.lr_no===lr);
-  if(!t)return;
-  loadedLR=lr;
-  const m={lr_no:'lr_no',date:'trip_date',vehicle:'vehicle_no',from:'from_place',to:'to_place',
-    driver:'driver_name',driver_mob:'driver_mob',total:'lorry_total',tds:'tds',
-    loading:'loading',halting:'halting',munshi:'munshi',commission:'commission',
-    pod:'pod',shortage:'shortage',epod:'epod',remarks:'remarks',rate:'lorry_rate',tons:'lorry_tons'};
-  Object.entries(m).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=t[k]||'';});
-  document.getElementById('trip_status').value=t.status||'Trip Closed';
-  document.getElementById('pod_status').value=t.pod_status||'Submitted';
+  const t = trips.find(x=>x.lr_no===lr);
+  if(!t) return;
+  loadedLR = lr;
+  const map = {lr_no:'lr_no',date:'trip_date',vehicle:'vehicle_no',from:'from_place',to:'to_place',
+    driver:'driver_name',driver_mob:'driver_mob',total:'lorry_total',tds:'tds',loading:'loading',
+    halting:'halting',munshi:'munshi',commission:'commission',pod:'pod',shortage:'shortage',
+    epod:'epod',remarks:'remarks',rate:'lorry_rate',tons:'lorry_tons'};
+  Object.entries(map).forEach(([k,id])=>{ const el=document.getElementById(id); if(el) el.value=t[k]||''; });
+  document.getElementById('trip_status').value = t.status || 'Trip Closed';
+  document.getElementById('pod_status').value  = t.pod_status || 'Submitted';
+  document.getElementById('payList').innerHTML  = '';
+  payCount = 0;
 
-  document.getElementById('payList').innerHTML='';
-  payCount=0;
-
-  const histPays=payments.filter(p=>p.lr_no===lr);
-  if(histPays.length){
-    document.getElementById('payHistSection').style.display='block';
-    document.getElementById('payHistList').innerHTML=histPays.map(p=>`
+  const hist = payments.filter(p=>p.lr_no===lr);
+  if(hist.length) {
+    document.getElementById('payHistSection').style.display = 'block';
+    document.getElementById('payHistList').innerHTML = hist.map(p=>`
       <div class="pay-hist-row">
-        <div><div class="pay-hist-amt">${inr(parseFloat(p.amount)||0)}</div><div class="pay-hist-meta">${p.mode} ${p.note?'· '+p.note:''}</div></div>
+        <div>
+          <div class="pay-hist-amt">${inr(parseFloat(p.amount)||0)}</div>
+          <div class="pay-hist-meta">${p.mode||''}${p.note?' · '+p.note:''}</div>
+        </div>
         <div class="pay-hist-lbl">${p.payment_date?fdt(p.payment_date):''}</div>
       </div>`).join('');
   } else {
-    document.getElementById('payHistSection').style.display='none';
+    document.getElementById('payHistSection').style.display = 'none';
   }
   rc();
-  toast('Loaded: '+lr);
+  toast('Loaded: ' + lr);
 }
 
 /* ── GET FORM DATA ── */
 function getData() {
-  const c=rc();
+  const c = rc();
   return {
-    lr_no:gs('lr_no'),date:gs('trip_date'),vehicle:gs('vehicle_no'),
-    from:gs('from_place'),to:gs('to_place'),
-    driver:gs('driver_name'),driver_mob:gs('driver_mob'),
-    rate:gn('lorry_rate'),tons:gn('lorry_tons'),total:gn('lorry_total'),
-    tds:c.tds,loading:c.loading,halting:c.halting,munshi:c.munshi,
-    commission:c.commission,pod:c.pod,shortage:c.shortage,
-    gross:c.gross,totalPaid:c.totalPaid,due:c.due,
-    status:gs('trip_status')||'Active',pod_status:gs('pod_status'),
-    epod:gs('epod'),remarks:gs('remarks'),saved_at:new Date().toISOString()
+    lr_no: gs('lr_no'), date: gs('trip_date'), vehicle: gs('vehicle_no'),
+    from: gs('from_place'), to: gs('to_place'),
+    driver: gs('driver_name'), driver_mob: gs('driver_mob'),
+    rate: gn('lorry_rate'), tons: gn('lorry_tons'), total: gn('lorry_total'),
+    tds: c.tds, loading: c.loading, halting: c.halting, munshi: c.munshi,
+    commission: c.commission, pod: c.pod, shortage: c.shortage,
+    gross: c.gross, totalPaid: c.totalPaid, due: c.due,
+    status: gs('trip_status')||'Active', pod_status: gs('pod_status'),
+    epod: gs('epod'), remarks: gs('remarks'), saved_at: new Date().toISOString()
   };
 }
 
 /* ── SAVE ── */
-async function saveTrip() {
-  const d=getData();
-  if(!d.lr_no){toast('Enter LR Number');return;}
-  if(!d.vehicle){toast('Enter Vehicle Number');return;}
-  if(!d.total){toast('Enter Total Amount');return;}
+function saveTrip() {
+  const d = getData();
+  if(!d.lr_no)    { toast('Enter LR Number');    return; }
+  if(!d.vehicle)  { toast('Enter Vehicle Number'); return; }
+  if(!d.total)    { toast('Enter Total Amount');  return; }
 
-  const np=getNewPays();
-  const payRows=np.map(p=>({lr_no:d.lr_no,payment_date:p.payment_date,amount:p.amount,mode:p.mode,note:p.note,recorded_at:new Date().toISOString()}));
+  const np = getNewPays().map(p=>({
+    lr_no: d.lr_no,
+    payment_date: p.payment_date,
+    amount: p.amount,
+    mode: p.mode,
+    note: p.note,
+    recorded_at: new Date().toISOString()
+  }));
 
-  showLoader('Saving to Google Sheets...');
-  try {
-    await saveToSheets(d, payRows);
-    if(payRows.length){
-      payments=[...payments.filter(p=>p.lr_no!==d.lr_no&&loadedLR!==d.lr_no), ...payments.filter(p=>p.lr_no===d.lr_no), ...payRows];
-    }
-    loadedLR=d.lr_no;
-    document.getElementById('payList').innerHTML='';
-    payCount=0;
-    selectLR(d.lr_no);
-    setSyncStatus('ok','SHEETS ✓');
-    toast('Saved: '+d.lr_no+' → Google Sheets');
-    updStats();
-  } catch(e) {
-    setSyncStatus('err','SYNC FAILED');
-    toast('Save failed — check connection');
-  }
-  hideLoader();
+  // Update local state
+  const idx = trips.findIndex(t=>t.lr_no===d.lr_no);
+  if(idx>=0) trips[idx]=d; else trips.unshift(d);
+  payments = [...payments.filter(p=>p.lr_no!==d.lr_no || loadedLR!==d.lr_no), ...payments.filter(p=>p.lr_no===d.lr_no && loadedLR===d.lr_no), ...np];
+  // Simpler: merge cleanly
+  if(np.length) payments = [...payments, ...np];
+  persistLocal();
+
+  loadedLR = d.lr_no;
+  document.getElementById('payList').innerHTML = '';
+  payCount = 0;
+  selectLR(d.lr_no);
+  updStats();
+  toast('Saved locally ✓ — syncing to Sheets...');
+  setSyncStatus('ing');
+
+  // Ask Claude to write to Sheets
+  const tripStr = JSON.stringify(d);
+  const payStr  = JSON.stringify(np);
+  sendPrompt(`save_rrp_trip: TRIP=${tripStr} PAYMENTS=${payStr}`);
 }
 
 /* ── CLEAR ── */
-function clearForm(){
+function clearForm() {
   ['lr_no','trip_date','vehicle_no','from_place','to_place','driver_name','driver_mob',
    'lorry_rate','lorry_tons','lorry_total','tds','loading','halting','munshi',
-   'commission','pod','shortage','epod','remarks'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  document.getElementById('trip_status').value='Trip Closed';
-  document.getElementById('pod_status').value='Submitted';
-  document.getElementById('payList').innerHTML='';
-  document.getElementById('payHistSection').style.display='none';
-  payCount=0; loadedLR=null;
+   'commission','pod','shortage','epod','remarks'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('trip_status').value = 'Trip Closed';
+  document.getElementById('pod_status').value  = 'Submitted';
+  document.getElementById('payList').innerHTML  = '';
+  document.getElementById('payHistSection').style.display = 'none';
+  payCount = 0; loadedLR = null;
   rc();
 }
 
 /* ── HISTORY ── */
-function renderHist(){
-  const w=document.getElementById('histList');
-  if(!trips.length){w.innerHTML='<div class="empty">No trips yet. Create your first trip!</div>';return;}
-  w.innerHTML=trips.map(t=>{
-    const trPays=payments.filter(p=>p.lr_no===t.lr_no);
-    const paidSum=trPays.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
-    const gross=parseFloat(t.gross)||parseFloat(t.total)||0;
-    const due=Math.max(0,gross-paidSum);
-    const closed=t.status==='Trip Closed'&&due<=0;
-    return`<div class="hitem${closed?' closed':''}" onclick="loadTrip('${t.lr_no}')">
+function loadTrip(lr) { selectLR(lr); sw('new'); }
+
+function renderHist() {
+  const w = document.getElementById('histList');
+  if(!trips.length) { w.innerHTML='<div class="empty">No trips yet. Create your first trip!</div>'; return; }
+  w.innerHTML = trips.map(t=>{
+    const trPays = payments.filter(p=>p.lr_no===t.lr_no);
+    const paidSum = trPays.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
+    const gross = parseFloat(t.gross)||parseFloat(t.total)||0;
+    const due = Math.max(0, gross - paidSum);
+    const closed = t.status==='Trip Closed' && due<=0;
+    return `<div class="hitem${closed?' closed':''}" onclick="loadTrip('${t.lr_no}')">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
         <span class="hlrno">${t.lr_no}</span>
         <span class="dbadge ${due>0?'open':'zero'}">${due>0?'DUE '+inr(due):'PAID'}</span>
@@ -653,108 +545,98 @@ function renderHist(){
         <span style="color:var(--gray-dark);font-size:9px;">${t.date?fdt(t.date):''}</span>
       </div>
       <div class="hacts" onclick="event.stopPropagation()">
-        <button class="mb mpdf" onclick="handleAction('download','${t.lr_no}')">PDF</button>
-        <button class="mb mwa"  onclick="handleAction('whatsapp','${t.lr_no}')">WA</button>
-        ${!closed?`<button class="mb mclose" onclick="markClosed('${t.lr_no}')">Close</button>`:''}
-        <button class="mb mdel" onclick="delTrip('${t.lr_no}')">Del</button>
+        <button class="mb mpdf"   onclick="handleAction('download','${t.lr_no}')">PDF</button>
+        <button class="mb mwa"    onclick="handleAction('whatsapp','${t.lr_no}')">WA</button>
+        ${!closed?`<button class="mb mclose" onclick="markClosed('${t.lr_no}')">Close Trip</button>`:''}
+        <button class="mb mdel" onclick="delTrip('${t.lr_no}')">Delete</button>
       </div>
     </div>`;
   }).join('');
 }
 
-function loadTrip(lr){selectLR(lr);sw('new');}
-
-async function markClosed(lr){
-  if(!confirm('Mark '+lr+' as Closed?'))return;
-  const t=trips.find(x=>x.lr_no===lr);if(!t)return;
-  t.status='Trip Closed';t.due=0;
-  showLoader('Updating...');
-  try{
-    await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      model:MODEL,max_tokens:500,
-      mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],
-      messages:[{role:'user',content:`Use gdrive create_file to overwrite file id ${TRIPS_ID} titled "RRP Enterprises — Trip Management" with this CSV: ${toCSV(TRIP_HEADERS,trips)}`}]
-    })});
-    toast('Closed: '+lr);
-    renderHist();updStats();setSyncStatus('ok','SHEETS ✓');
-  }catch(e){toast('Update failed');}
-  hideLoader();
+function markClosed(lr) {
+  if(!confirm('Mark '+lr+' as Closed?')) return;
+  const t = trips.find(x=>x.lr_no===lr);
+  if(!t) return;
+  t.status='Trip Closed'; t.due=0;
+  persistLocal(); renderHist(); updStats();
+  sendPrompt(`save_rrp_trip: TRIP=${JSON.stringify(t)} PAYMENTS=[]`);
+  toast('Trip Closed: '+lr);
 }
 
-async function delTrip(lr){
-  if(!confirm('Delete '+lr+' and all its payments?'))return;
-  trips=trips.filter(t=>t.lr_no!==lr);
-  payments=payments.filter(p=>p.lr_no!==lr);
-  showLoader('Deleting...');
-  try{
-    await Promise.all([
-      fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,max_tokens:500,mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],messages:[{role:'user',content:`Use gdrive create_file to overwrite file id ${TRIPS_ID} titled "RRP Enterprises — Trip Management" with this CSV: ${toCSV(TRIP_HEADERS,trips)}`}]})}),
-      fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:MODEL,max_tokens:500,mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}],messages:[{role:'user',content:`Use gdrive create_file to overwrite file id ${PAYS_ID} titled "RRP Enterprises — Payments Ledger" with this CSV: ${toCSV(PAY_HEADERS,payments)}`}]})})
-    ]);
-    toast('Deleted: '+lr);renderHist();updStats();setSyncStatus('ok','SHEETS ✓');
-  }catch(e){toast('Delete failed');}
-  hideLoader();
+function delTrip(lr) {
+  if(!confirm('Delete '+lr+' and all payments?')) return;
+  trips    = trips.filter(t=>t.lr_no!==lr);
+  payments = payments.filter(p=>p.lr_no!==lr);
+  persistLocal(); renderHist(); updStats();
+  sendPrompt(`delete_rrp_trip: LR=${lr}`);
+  toast('Deleted: '+lr);
 }
 
 /* ── STATS ── */
-function updStats(){
-  let due=0,paid=0;
+function updStats() {
+  let due=0, paid=0;
   trips.forEach(t=>{
-    const trPays=payments.filter(p=>p.lr_no===t.lr_no);
-    const paidSum=trPays.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
-    const gross=parseFloat(t.gross)||parseFloat(t.total)||0;
-    due+=Math.max(0,gross-paidSum);
-    paid+=paidSum;
+    const trPays = payments.filter(p=>p.lr_no===t.lr_no);
+    const paidSum = trPays.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
+    const gross = parseFloat(t.gross)||parseFloat(t.total)||0;
+    due  += Math.max(0, gross-paidSum);
+    paid += paidSum;
   });
-  setEl('s_total',trips.length);setEl('s_due',short(due));setEl('s_paid',short(paid));
+  setEl('s_total', trips.length);
+  setEl('s_due',   short(due));
+  setEl('s_paid',  short(paid));
 }
 
 /* ── TAB SWITCH ── */
-function sw(t){
-  document.getElementById('pane-new').style.display=t==='new'?'block':'none';
-  document.getElementById('pane-hist').style.display=t==='hist'?'block':'none';
-  document.getElementById('tab-new').className='tab'+(t==='new'?' active':'');
-  document.getElementById('tab-hist').className='tab'+(t==='hist'?' active':'');
-  if(t==='hist'){renderHist();updStats();}
+function sw(t) {
+  document.getElementById('pane-new').style.display  = t==='new'  ? 'block' : 'none';
+  document.getElementById('pane-hist').style.display = t==='hist' ? 'block' : 'none';
+  document.getElementById('tab-new').className  = 'tab' + (t==='new'  ? ' active' : '');
+  document.getElementById('tab-hist').className = 'tab' + (t==='hist' ? ' active' : '');
+  if(t==='hist') { renderHist(); updStats(); }
 }
 
 /* ── PDF ── */
-async function handleAction(mode, lr_no){
+async function handleAction(mode, lr_no) {
   let t;
-  if(lr_no){t=trips.find(x=>x.lr_no===lr_no);if(!t){toast('Trip not found');return;}}
-  else{t=getData();if(!t.lr_no){toast('Enter LR Number first');return;}}
+  if(lr_no) { t=trips.find(x=>x.lr_no===lr_no); if(!t){toast('Trip not found');return;} }
+  else       { t=getData(); if(!t.lr_no){toast('Enter LR Number first');return;} }
 
-  const trPays=payments.filter(p=>p.lr_no===t.lr_no);
-  const np=lr_no?[]:getNewPays().map(p=>({...p,recorded_at:new Date().toISOString()}));
-  const allPays=[...trPays,...np];
+  const trPays = payments.filter(p=>p.lr_no===t.lr_no);
+  const np     = lr_no ? [] : getNewPays().map(p=>({...p, recorded_at:new Date().toISOString()}));
+  const allPays = [...trPays, ...np];
 
   showLoader('Generating PDF...');
   await new Promise(r=>setTimeout(r,80));
   let doc;
-  try{doc=buildPDF(t,allPays);}catch(err){hideLoader();toast('PDF error: '+err.message);return;}
-  if(!doc){hideLoader();return;}
-  const fname='RRP_'+t.lr_no+'_'+((t.date||'').replace(/-/g,''))+'.pdf';
-  if(mode==='download'){doc.save(fname);hideLoader();toast('PDF downloaded!');return;}
-  let blob,file;
-  try{blob=doc.output('blob');file=new File([blob],fname,{type:'application/pdf'});}
-  catch(e){hideLoader();doc.save(fname);toast('Saved PDF');return;}
+  try { doc = buildPDF(t, allPays); } catch(err) { hideLoader(); toast('PDF error: '+err.message); return; }
+  if(!doc) { hideLoader(); return; }
+
+  const fname = 'RRP_'+t.lr_no+'_'+((t.date||'').replace(/-/g,''))+'.pdf';
+  if(mode==='download') { doc.save(fname); hideLoader(); toast('PDF downloaded!'); return; }
+
+  let blob, file;
+  try { blob=doc.output('blob'); file=new File([blob],fname,{type:'application/pdf'}); }
+  catch(e) { hideLoader(); doc.save(fname); toast('PDF saved'); return; }
   hideLoader();
-  if(mode==='whatsapp'){
-    if(navigator.canShare&&navigator.canShare({files:[file]})){
-      try{await navigator.share({files:[file],title:'RRP Receipt '+t.lr_no});toast('Opened share!');}
-      catch(e){if(e.name!=='AbortError')waFallback(t,doc,fname);}
-    }else waFallback(t,doc,fname);
+
+  if(mode==='whatsapp') {
+    if(navigator.canShare&&navigator.canShare({files:[file]})) {
+      try { await navigator.share({files:[file],title:'RRP Receipt '+t.lr_no}); toast('Shared!'); }
+      catch(e) { if(e.name!=='AbortError') waFallback(t,doc,fname); }
+    } else waFallback(t,doc,fname);
     return;
   }
-  if(mode==='share'){
-    if(navigator.canShare&&navigator.canShare({files:[file]})){
-      try{await navigator.share({files:[file],title:'RRP Receipt '+t.lr_no});toast('Shared!');}
-      catch(e){if(e.name!=='AbortError'){doc.save(fname);toast('PDF saved');}}
-    }else{doc.save(fname);toast('PDF saved — share from Downloads');}
+  if(mode==='share') {
+    if(navigator.canShare&&navigator.canShare({files:[file]})) {
+      try { await navigator.share({files:[file],title:'RRP Receipt '+t.lr_no}); toast('Shared!'); }
+      catch(e) { if(e.name!=='AbortError'){doc.save(fname);toast('PDF saved');} }
+    } else { doc.save(fname); toast('PDF saved — share from Downloads'); }
   }
 }
 
-function waFallback(t,doc,fname){
+function waFallback(t,doc,fname) {
   doc.save(fname);
   const msg='*RRP Enterprises — Lorry Receipt*\nLR: *'+t.lr_no+'*\nVehicle: '+t.vehicle+'\nRoute: '+(t.from||'--')+' → '+(t.to||'--')+'\nTotal: *'+inr(t.total)+'*\nDue: *'+(Math.max(0,t.due)>0?inr(t.due):'NIL')+'*\nStatus: '+t.status;
   const mob=/mobile|android|iphone/i.test(navigator.userAgent);
@@ -763,12 +645,11 @@ function waFallback(t,doc,fname){
 }
 
 /* ── PDF BUILDER ── */
-function buildPDF(t, allPays){
+function buildPDF(t, allPays) {
   const JPdf=(window.jspdf&&window.jspdf.jsPDF)||window.jsPDF;
-  if(!JPdf)throw new Error('jsPDF not loaded');
+  if(!JPdf) throw new Error('jsPDF not loaded');
   const doc=new JPdf({orientation:'portrait',unit:'mm',format:'a4'});
   const W=210,H=297,ML=12,MR=198,CW=MR-ML;
-
   const paidSum=allPays.reduce((s,p)=>s+(parseFloat(p.amount)||0),0);
   const gross=parseFloat(t.gross)||parseFloat(t.total)||0;
   const due=Math.max(0,gross-paidSum);
@@ -776,9 +657,17 @@ function buildPDF(t, allPays){
 
   doc.setFillColor(8,20,55);doc.rect(0,0,W,40,'F');
   doc.setFillColor(0,162,232);doc.rect(0,40,W,2.5,'F');
-  doc.setFillColor(255,255,255);doc.roundedRect(ML,5,26,26,3,3,'F');
-  doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(8,20,55);
-  doc.text('RRP',ML+13,21,{align:'center'});
+
+  // Logo
+  try {
+    const img=new Image();img.crossOrigin='anonymous';img.src='https://i.ibb.co/R9tD6GP/logo.png';
+    doc.addImage(img,'PNG',ML,6,26,26);
+  } catch(e) {
+    doc.setFillColor(0,162,232);doc.roundedRect(ML,6,26,26,3,3,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(255,255,255);
+    doc.text('RRP',ML+13,22,{align:'center'});
+  }
+
   doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(255,255,255);
   doc.text('RRP ENTERPRISES',ML+33,14);
   doc.setFont('helvetica','normal');doc.setFontSize(6.8);doc.setTextColor(160,185,225);
@@ -835,32 +724,27 @@ function buildPDF(t, allPays){
   ];
   let ri=0;
   rows.forEach(r=>{
-    const rv=parseFloat(r.v)||0;
-    if(!r.always&&rv===0)return;
+    const rv=parseFloat(r.v)||0; if(!r.always&&rv===0)return;
     doc.setFillColor(ri%2===0?255:248,ri%2===0?255:251,ri%2===0?255:255);
     doc.rect(ML,y,CW,8,'F');
     doc.setDrawColor(225,235,250);doc.setLineWidth(0.12);doc.line(ML,y+8,MR,y+8);
     if(!r.always){
-      const bx=ML+2,by=y+2,bw=5.5,bh=4;
-      if(r.plus){doc.setFillColor(218,245,228);doc.roundedRect(bx,by,bw,bh,0.7,0.7,'F');doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(5,110,50);doc.text('+',bx+bw/2,by+3,{align:'center'});}
-      else{doc.setFillColor(255,228,228);doc.roundedRect(bx,by,bw,bh,0.7,0.7,'F');doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(160,0,0);doc.text('-',bx+bw/2,by+3,{align:'center'});}
+      if(r.plus){doc.setFillColor(218,245,228);doc.roundedRect(ML+2,y+2,5.5,4,0.7,0.7,'F');doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(5,110,50);doc.text('+',ML+4.75,y+5,{align:'center'});}
+      else{doc.setFillColor(255,228,228);doc.roundedRect(ML+2,y+2,5.5,4,0.7,0.7,'F');doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.setTextColor(160,0,0);doc.text('−',ML+4.75,y+5,{align:'center'});}
     }
     const tx=r.always?ML+4:ML+9.5;
     doc.setFont('helvetica',r.bold?'bold':'normal');doc.setFontSize(r.bold?9:8.5);
     doc.setTextColor(r.bold?8:50,r.bold?20:65,r.bold?55:90);
     doc.text(r.l,tx,y+5.5);
     doc.setFont('helvetica','bold');doc.setFontSize(8.5);
-    if(r.plus===true)doc.setTextColor(5,110,50);
-    else if(r.plus===false)doc.setTextColor(150,10,10);
-    else doc.setTextColor(8,20,55);
+    doc.setTextColor(r.plus===true?5:(r.plus===false?150:8),r.plus===true?110:(r.plus===false?10:20),r.plus===true?50:(r.plus===false?10:55));
     doc.text('Rs.'+fmt(rv),MR-2,y+5.5,{align:'right'});
     y+=8;ri++;
   });
   doc.setDrawColor(190,210,240);doc.setLineWidth(0.4);doc.line(ML,y,MR,y);y+=3;
   doc.setFillColor(228,237,255);doc.roundedRect(ML,y,CW,9,1.5,1.5,'F');
   doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(8,20,55);
-  doc.text('GROSS PAYABLE',ML+4,y+6.5);
-  doc.text('Rs.'+fmt(Math.max(0,gross)),MR-2,y+6.5,{align:'right'});
+  doc.text('GROSS PAYABLE',ML+4,y+6.5);doc.text('Rs.'+fmt(Math.max(0,gross)),MR-2,y+6.5,{align:'right'});
   y+=12;
 
   if(allPays.length){
@@ -868,9 +752,8 @@ function buildPDF(t, allPays){
     doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(255,255,255);
     doc.text('PAYMENT HISTORY',ML+4,y+5.5);doc.text('DATE',ML+80,y+5.5);doc.text('MODE',ML+120,y+5.5);doc.text('AMOUNT',MR-2,y+5.5,{align:'right'});
     y+=8;
-    let runBal=gross;
     allPays.forEach((p,i)=>{
-      const amt=parseFloat(p.amount)||0;runBal-=amt;
+      const amt=parseFloat(p.amount)||0;
       doc.setFillColor(i%2===0?240:248,i%2===0?252:252,i%2===0?240:245);
       doc.rect(ML,y,CW,8,'F');
       doc.setDrawColor(200,230,210);doc.setLineWidth(0.1);doc.line(ML,y+8,MR,y+8);
@@ -894,14 +777,13 @@ function buildPDF(t, allPays){
     doc.setDrawColor(220,50,50);doc.setLineWidth(0.5);doc.roundedRect(ML,y,CW,11,1.5,1.5,'S');
     doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(160,0,0);
     doc.text('BALANCE PAYABLE (DUE)',ML+4,y+7.5);doc.text('Rs.'+fmt(due),MR-2,y+7.5,{align:'right'});
-  }else{
+  } else {
     doc.setFillColor(228,252,238);doc.roundedRect(ML,y,CW,11,1.5,1.5,'F');
     doc.setDrawColor(16,185,129);doc.setLineWidth(0.5);doc.roundedRect(ML,y,CW,11,1.5,1.5,'S');
     doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.setTextColor(5,90,50);
     doc.text('BALANCE DUE — NIL (FULLY PAID)',ML+4,y+7.5);doc.text('Rs.0.00',MR-2,y+7.5,{align:'right'});
   }
   y+=14;
-
   if(isClosed){
     doc.setFillColor(16,185,129);doc.roundedRect(ML,y,CW,12,2,2,'F');
     doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(255,255,255);
@@ -929,14 +811,13 @@ function buildPDF(t, allPays){
 let tt;
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('show'),3500);}
 
-/* ── jsPDF LOADER ── */
+/* ── jsPDF ── */
 function loadJsPDF(){return new Promise((res,rej)=>{if((window.jspdf&&window.jspdf.jsPDF)||window.jsPDF){res();return;}const s=document.createElement('script');s.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';s.onload=res;s.onerror=()=>rej(new Error('Failed to load PDF library'));document.head.appendChild(s);});}
 
 /* ── INIT ── */
-document.getElementById('trip_date').value=new Date().toISOString().split('T')[0];
-rc();
-loadJsPDF().catch(()=>{});
-loadAll();
+document.getElementById('trip_date').value = new Date().toISOString().split('T')[0];
+rc(); updStats(); loadJsPDF().catch(()=>{});
+if(trips.length) document.getElementById('syncBanner').classList.add('hide');
 </script>
 </body>
 </html>
